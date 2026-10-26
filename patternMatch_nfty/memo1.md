@@ -63,3 +63,53 @@ print(f"一致度: {similarity:.2f}%")
 目的の「画面が特定の状態の状態になったら通知するプログラム」を作成していく。
 
 次回はps5の画面をキャプチャボードから取り込んで処理する。部分を作成する。  
+
+# キャプチャ映像の取り込み
+tst_cap_screenshot.py を追加  
+``` python
+import cv2
+import os
+from datetime import datetime
+
+# 設定
+DEVICE_ID = 0
+SAVE_DIR = "screenshots"
+
+# 保存先フォルダを作成
+os.makedirs(SAVE_DIR, exist_ok=True)
+
+# キャプチャーボードを開く
+cap = cv2.VideoCapture(DEVICE_ID, cv2.CAP_DSHOW)
+
+if not cap.isOpened():
+    print("映像デバイスを開けませんでした")
+    raise SystemExit(1)
+
+try:
+    # 映像を1フレーム取得
+    ret, frame = cap.read()
+
+    if not ret:
+        print("映像を取得できませんでした")
+        raise SystemExit(1)
+
+    # ファイル名を生成
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    filename = os.path.join(SAVE_DIR, f"capture_{timestamp}.png")
+
+    # スクリーンショットを保存
+    if cv2.imwrite(filename, frame):
+        print(f"保存しました: {filename}")
+    else:
+        print("画像の保存に失敗しました")
+
+finally:
+    cap.release()
+```
+実行結果  
+<img src="screenshots\capture_20261026_143053_345159.png" width="50%">
+
+プログラムの実行でキャプチャボード経由でps5のスクリーンショットを撮ることができた。   
+
+今回のプログラムではpngファイルを保存したが、  
+目的の通知プログラムでは、ストレージへの負担を考慮し、n秒毎にメモリ上に保存し差分を取ることにする。  
