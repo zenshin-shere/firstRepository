@@ -1,0 +1,12 @@
+{
+  version: 2,
+  mediaFileName: 'R_20261021_2022_120s.mp4',
+  cutSegments: [
+    {
+      start: 65.272226,
+      end: 110.6108,
+      name: '',
+      selected: true,
+    },
+  ],
+}
