@@ -1,3 +1,7 @@
+# やること
+・問題を解く  
+・gitの変更
+
 # C - Explore
 
 - **コンテスト:** AtCoder Daily Training EASY 2025/10/08
